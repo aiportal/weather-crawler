@@ -1,16 +1,12 @@
-import {NodeModuleTester} from './core/utils';
+import request from 'request-promise';
+import { CityData } from './crawel/city-data';
 
 /**
  * main 入口
  */
-function main() {
-  const tester = new NodeModuleTester("s1", 1);
-
-  console.log(NodeModuleTester.STATIC_VAR);
-
-  console.log(NodeModuleTester.testPath());
-
-  console.log('测试');
+async function main() {
+  console.log(CityData.provinces.length);
+  console.log(CityData.cities('10'));
 }
 
 main();
