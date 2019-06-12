@@ -1,48 +1,15 @@
 import _ from 'lodash';
 
 // const CITY_SELECT_DATA_URL = 'http://tianqi.2345.com/js/citySelectData.js';
-import {prov as CITY_DATA, provqx as COUNTY_DATA} from './citySelectData';
+import { prov as CITY_DATA, provqx as COUNTY_DATA } from './constants/citySelectData';
+import { province as PROVINCE_DATA } from './constants/provinceData';
 
-const PROVINCE_DATA = {
-  '10': '安徽',
-  '11': '澳门',
-  '12': '北京',
-  '43': '重庆',
-  '13': '福建',
-  '14': '甘肃',
-  '15': '广东',
-  '16': '广西',
-  '17': '贵州',
-  '18': '海南',
-  '19': '河北',
-  '20': '河南',
-  '21': '黑龙江',
-  '22': '湖北',
-  '23': '湖南',
-  '24': '吉林',
-  '25': '江苏',
-  '26': '江西',
-  '27': '辽宁',
-  '28': '内蒙古',
-  '29': '宁夏',
-  '30': '青海',
-  '31': '山东',
-  '32': '山西',
-  '33': '陕西',
-  '34': '上海',
-  '35': '四川',
-  '36': '台湾',
-  '37': '天津',
-  '38': '西藏',
-  '39': '香港',
-  '40': '新疆',
-  '41': '云南',
-  '42': '浙江',
-}
 
-export interface DataValue {
-  id: string;
+export interface CityValue {
+  code: string;
   name: string;
+  province?: string,
+  city?: string,
 }
 
 /**
@@ -54,28 +21,58 @@ export class CityData {
   private static readonly _cities = CITY_DATA;
   private static readonly _counties = COUNTY_DATA;
 
-  static get provinces(): DataValue[] {
+  static provinces(): CityValue[] {
     return _(this._provinces)
-      .map((k, v) => ({id: k, name: v}))
+      .map((v, k) => ({code: k, name: v}))
       .value();
   }
 
-  static cities(province: string) {
+  static *cities(): IterableIterator<CityValue> {
+    for (let prov of this.provinces()) {
+      const cities = this.getCities(prov.code);
+      for (let city of cities) {
+        city.province = prov.name,
+        yield city;
+      }
+    }
+  }
+
+  static *counties(): IterableIterator<CityValue> {
+    for (let prov of this.provinces()) {
+      const cities = this.getCities(prov.code);
+      for (let city of cities) {
+        const counties = this.getCounties(prov.code, city.code);
+        for (let county of counties) {
+          county.province = prov.name;
+          county.city = city.name;
+          yield county;
+        }
+      }
+    }
+  }
+
+  static getCities(province: string): CityValue[] {
     const prov = Number(province)
     return _(this._cities[prov])
       .split('|')
-      .map(x => x.split('-'))
-      .map(x => ({id: x[0], name: x[1]}))
+      .map(x => /(\d+)-\w (\S+)-(\d+)/.exec(x))
+      .compact()
+      .map(x => ({code: x[1], name: x[2]}))
       .value();
   }
 
-  static counties(city: string) {
-
+  static getCounties(province: string, city: string): CityValue[] {
+    const prov = Number(province)
+    return _(this._counties[prov])
+      .split('|')
+      .map(x => /(\d+)-\w (\S+)-(\d+)/.exec(x))
+      .compact()
+      .filter(x => x[3] === city)
+      .map(x => ({code: x[1], name: x[2]}))
+      .value();
   }
 
   static initalize() {
-    console.log(this._provinces[41]);
-    console.log('init');
   }
 }
 
