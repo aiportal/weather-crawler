@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "weather",
-      "program": "${workspaceFolder}\\src\\crawler.ts",
+      "program": "${workspaceFolder}/src/crawler.ts",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
       ]
