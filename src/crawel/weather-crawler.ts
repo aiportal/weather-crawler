@@ -1,10 +1,8 @@
 import dayjs, { Dayjs } from 'dayjs';
 import _ from 'lodash';
 import request from 'request-promise';
-import requestOrigin from 'request';
 import fs from 'fs';
 import path from 'path';
-import zlib from 'zlib';
 import iconv from 'iconv-lite';
 import { CityData, CityValue } from './city-data';
 
@@ -14,38 +12,53 @@ export const MIN_DATE = dayjs('2011-01').toDate();
  */
 export class WeatherCrawler {
 
+  public cites?: CityValue[];
+
   private readonly start: Dayjs;
   private readonly end: Dayjs;
+  private readonly sleep: number;
   
-  constructor(start?: Date, end?: Date) {
+  constructor(start?: Date, end?: Date, sleep?: number);
+  constructor(sleep?: number);
+  constructor(a?: any, b?: any, c?: any) {
+    const [start, end, sleep] = _.isNumber(a) ? [undefined, undefined, a] : [a, b, c];
+
     this.start = dayjs(start || MIN_DATE);
-    this.end = end ? dayjs(end) : dayjs();
+    this.end = end ? dayjs(end) : dayjs().add(-1, 'M');
+    this.sleep = sleep || 1000;
   }
 
-  public async crawl(progress?: (city: CityValue, month: Dayjs) => void): Promise<void>;
-  public async crawl(cities?: CityValue[], progress?: (city: CityValue, month: Dayjs) => void): Promise<void>;
-  public async crawl(x?: any, y?: any): Promise<void> {
-    const [cities, progress] = _.isFunction(x) ? [undefined, x] : [x, y];
-
-    for (let m = this.end.add(-1, 'M');
+  /**
+   * crawl to file 
+   * @param location directory path
+   * @param progress
+   */
+  public async crawlToFile(location: string, progress?: (city: CityValue, month: Dayjs) => void): Promise<void> {
+    
+    for (let m = this.end;
       m.isAfter(this.start, 'M') || m.isSame(this.start, 'M'); 
       m = m.add(-1, 'M')
     ) {
-      for (let city of cities || CityData.counties()) {
-        const url = this.weatherUrl(m, city);
-        const path = this.filePath(m, city);
-        if (!await fs.existsSync(path)) {
-          await this.downloadFile(url, path);
-          if (progress) {
-            progress(city, m);
-          }
-          await sleep(1000)
+
+      for (let city of this.cites || CityData.counties()) {
+        const file = this.filePath(m, city, location);
+        if (await fs.existsSync(file)) {
+          continue;
         }
+
+        const url = this.weatherUrl(m, city);
+        await this.downloadToFile(url, file);
+
+        if (progress) {
+          progress(city, m);
+        }
+
+        await sleep(this.sleep);
       }
     }
   }
 
-  private async downloadFile(url: string, file: string): Promise<void> {
+  private async downloadToFile(url: string, file: string): Promise<void> {
 
     const data = await request.get(url, {encoding: null});
     const js = iconv.decode(data, 'gb2312');
@@ -65,9 +78,9 @@ export class WeatherCrawler {
     return `http://tianqi.2345.com/t/wea_history/js/${path}`;
   }
 
-  private filePath(month: Dayjs, city: CityValue): string {
+  private filePath(month: Dayjs, city: CityValue, location: string): string {
     const name = `${city.code}_${city.name}_${month.format('YYYYMM')}.json`;
-    const path = `./data/${city.province || '其他'}/${city.city || '其他'}/${name}`;
+    const path = `${location}/${city.province || '其他'}/${city.city || '其他'}/${name}`;
     return path;
   }
 }

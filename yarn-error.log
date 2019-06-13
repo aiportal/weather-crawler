@@ -1,5 +1,5 @@
 Arguments: 
-  A:\Program Files\nodejs\node.exe C:\Users\bfbd\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @types/encoding
+  A:\Program Files\nodejs\node.exe C:\Users\bfbd\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
 
 PATH: 
   A:\Python27;A:\Python27\Scripts;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;;A:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\IDEMIA\AWP\Dlls;C:\Program Files\IDEMIA\AWP\Dlls;A:\Program Files\nodejs\;A:\Python37\Scripts\;A:\Python37\;C:\Users\bfbd\AppData\Local\Microsoft\WindowsApps;A:\Program Files\Microsoft VS Code\bin;A:\Programs\PortableGit\bin;A:\Programs\go\bin;B:\Golang\bin;A:\Programs\mongodb\bin;A:\Programs\Redis;A:\mingw-w64\mingw64\bin;A:\Programs\PortableGit\usr\bin;A:\Programs\python-3.6.4;A:\Programs\python-3.6.4\Scripts;C:\Users\bfbd\AppData\Roaming\npm
@@ -14,17 +14,12 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fencoding: Not found
-      at Request.params.callback [as _callback] (C:\Users\bfbd\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66255:18)
-      at Request.self.callback (C:\Users\bfbd\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:129397:22)
-      at Request.emit (events.js:198:13)
-      at Request.<anonymous> (C:\Users\bfbd\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:130369:10)
-      at Request.emit (events.js:198:13)
-      at IncomingMessage.<anonymous> (C:\Users\bfbd\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:130291:12)
-      at Object.onceWrapper (events.js:286:20)
-      at IncomingMessage.emit (events.js:203:15)
-      at endReadableNT (_stream_readable.js:1129:12)
-      at process._tickCallback (internal/process/next_tick.js:63:19)
+  SyntaxError: B:\Temp\weather\package.json: Unexpected token } in JSON at position 466
+      at JSON.parse (<anonymous>)
+      at C:\Users\bfbd\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\bfbd\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:304:30)
+      at C:\Users\bfbd\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:315:13
 
 npm manifest: 
   {
@@ -39,13 +34,12 @@ npm manifest:
       "@types/sqlite3": "^3.1.5",
       "bluebird": "^3.5.5",
       "dayjs": "^1.8.14",
-      "encoding": "^0.1.12",
+      "iconv-lite": "^0.4.24",
       "lodash": "^4.17.11",
       "request": "^2.88.0",
       "request-promise": "^4.2.4",
       "sequelize": "^5.8.9",
       "sqlite3": "^4.0.8",
-      "zlib": "^1.0.5"
     },
     "devDependencies": {
       "@types/node": "^12.0.8",
@@ -136,6 +130,13 @@ Lockfile:
     version "3.1.5"
     resolved "https://registry.yarnpkg.com/@types/sqlite3/-/sqlite3-3.1.5.tgz#c9bbc94b8e8ed0654e1f8bc98716aba6030e9533"
     integrity sha512-upsrd1zEYMa4Y+prurQ+vpo5SN63BUF6tOjeTv3ziF+9W9PHVh4/S5cy0qAqkHvmOEm/AZhEKd7V/0bR2udmFw==
+    dependencies:
+      "@types/node" "*"
+  
+  "@types/tar-stream@^1.6.1":
+    version "1.6.1"
+    resolved "https://registry.yarnpkg.com/@types/tar-stream/-/tar-stream-1.6.1.tgz#67d759068ff781d976cad978893bb7a334ec8809"
+    integrity sha512-pYCDOPuRE+4tXFk1rSMYiuI+kSrXiJ4av1bboQbkcEBA2rqwEWfIn9kdMSH+5nYu58WksHuxwx+7kVbtg0Le7w==
     dependencies:
       "@types/node" "*"
   
@@ -230,6 +231,13 @@ Lockfile:
     integrity sha1-pDAdOJtqQ/m2f/PKEaP2Y342Dp4=
     dependencies:
       tweetnacl "^0.14.3"
+  
+  bl@^3.0.0:
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/bl/-/bl-3.0.0.tgz#3611ec00579fd18561754360b21e9f784500ff88"
+    integrity sha512-EUAyP5UHU5hxF8BPT0LKW8gjYLhq1DQIcneOX/pL/m2Alo+OYDQAJlHq+yseMP50Os2nHXOSic6Ss3vSQeyf4A==
+    dependencies:
+      readable-stream "^3.0.1"
   
   bluebird@^3.5.0, bluebird@^3.5.5:
     version "3.5.5"
@@ -348,12 +356,12 @@ Lockfile:
       jsbn "~0.1.0"
       safer-buffer "^2.1.0"
   
-  encoding@^0.1.12:
-    version "0.1.12"
-    resolved "https://registry.yarnpkg.com/encoding/-/encoding-0.1.12.tgz#538b66f3ee62cd1ab51ec323829d1f9480c74beb"
-    integrity sha1-U4tm8+5izRq1HsMjgp0flIDHS+s=
+  end-of-stream@^1.4.1:
+    version "1.4.1"
+    resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.1.tgz#ed29634d19baba463b6ce6b80a37213eab71ec43"
+    integrity sha512-1MkrZNvWTKCaigbn+W15elq2BB/L22nqrSY5DKlo3X6+vclJm8Bb5djXJBmEX6fS3+zCh/F4VBK5Z2KxJt4s2Q==
     dependencies:
-      iconv-lite "~0.4.13"
+      once "^1.4.0"
   
   extend@~3.0.2:
     version "3.0.2"
@@ -393,6 +401,11 @@ Lockfile:
       asynckit "^0.4.0"
       combined-stream "^1.0.6"
       mime-types "^2.1.12"
+  
+  fs-constants@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/fs-constants/-/fs-constants-1.0.0.tgz#6be0de9be998ce16af8afc24497b9ee9b7ccd9ad"
+    integrity sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==
   
   fs-minipass@^1.2.5:
     version "1.2.6"
@@ -466,7 +479,7 @@ Lockfile:
       jsprim "^1.2.2"
       sshpk "^1.7.0"
   
-  iconv-lite@^0.4.4, iconv-lite@~0.4.13:
+  iconv-lite@^0.4.24, iconv-lite@^0.4.4:
     version "0.4.24"
     resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
     integrity sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==
@@ -493,7 +506,7 @@ Lockfile:
       once "^1.3.0"
       wrappy "1"
   
-  inherits@2, inherits@~2.0.3:
+  inherits@2, inherits@^2.0.3, inherits@~2.0.3:
     version "2.0.3"
     resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
     integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
@@ -714,7 +727,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
     integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
   
-  once@^1.3.0:
+  once@^1.3.0, once@^1.4.0:
     version "1.4.0"
     resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
     integrity sha1-WDsap3WWHUsROsF9nFC6753Xa9E=
@@ -796,6 +809,15 @@ Lockfile:
       safe-buffer "~5.1.1"
       string_decoder "~1.1.1"
       util-deprecate "~1.0.1"
+  
+  readable-stream@^3.0.1, readable-stream@^3.1.1:
+    version "3.4.0"
+    resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.4.0.tgz#a51c26754658e0a3c21dbf59163bd45ba6f447fc"
+    integrity sha512-jItXPLmrSR8jmTRmRWJXCnGJsfy85mB3Wd/uINMXA65yrnFo0cPClFIUWzo2najVNSl+mx7/4W8ttlLWJe99pQ==
+    dependencies:
+      inherits "^2.0.3"
+      string_decoder "^1.1.1"
+      util-deprecate "^1.0.1"
   
   request-promise-core@1.1.2:
     version "1.1.2"
@@ -961,6 +983,13 @@ Lockfile:
       is-fullwidth-code-point "^2.0.0"
       strip-ansi "^4.0.0"
   
+  string_decoder@^1.1.1:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.2.0.tgz#fe86e738b19544afe70469243b2a1ee9240eae8d"
+    integrity sha512-6YqyX6ZWEYguAxgZzHGL7SsCeGx3V2TtOTqZz1xSTSWnqsbWwbptafNyvf/ACquZUXV3DANr5BDIwNYe1mN42w==
+    dependencies:
+      safe-buffer "~5.1.0"
+  
   string_decoder@~1.1.1:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.1.1.tgz#9cf1611ba62685d7030ae9e4ba34149c3af03fc8"
@@ -986,6 +1015,17 @@ Lockfile:
     version "2.0.1"
     resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
     integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
+  
+  tar-stream@^2.1.0:
+    version "2.1.0"
+    resolved "https://registry.yarnpkg.com/tar-stream/-/tar-stream-2.1.0.tgz#d1aaa3661f05b38b5acc9b7020efdca5179a2cc3"
+    integrity sha512-+DAn4Nb4+gz6WZigRzKEZl1QuJVOLtAwwF+WUxy1fJ6X63CaGaUAxJRD2KEn1OMfcbCjySTYpNC6WmfQoIEOdw==
+    dependencies:
+      bl "^3.0.0"
+      end-of-stream "^1.4.1"
+      fs-constants "^1.0.0"
+      inherits "^2.0.3"
+      readable-stream "^3.1.1"
   
   tar@^4:
     version "4.4.10"
@@ -1045,7 +1085,7 @@ Lockfile:
     dependencies:
       punycode "^2.1.0"
   
-  util-deprecate@~1.0.1:
+  util-deprecate@^1.0.1, util-deprecate@~1.0.1:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
     integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=

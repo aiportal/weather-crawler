@@ -7,8 +7,13 @@ import { Sequelize, DataTypes } from 'sequelize';
  * crawler 
  */
 async function main() {
-  const crawler = new WeatherCrawler(new Date('2019-01'));
-  crawler.crawl((c, m) => console.log(c, m.format('YYYY-MM')));
+  const crawler = new WeatherCrawler(new Date('2019-04'), new Date('2019-05'), 1000);
+  // crawler.crawlToFile('./data', (c, m) => console.log(c, m.format('YYYY-MM')));
+  const province = CityData.provinces()[0];
+  const city = CityData.getCities(province.code)[0];
+  const counties = CityData.getCounties(province.code, city.code);
+  crawler.cites = counties;
+  crawler.crawlToFile('./data', (c, m) => console.log(c, m.format('YYYY-MM')));
 }
 
 main();
