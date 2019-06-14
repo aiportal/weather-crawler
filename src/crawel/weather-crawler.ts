@@ -8,11 +8,13 @@ import { CityData, CityValue } from './city-data';
 
 export const MIN_DATE = dayjs('2011-01').toDate();
 
+export type CrawlProcess = (city: CityValue, month: Dayjs, data: string) => void;
+
 /**
  */
 export class WeatherCrawler {
 
-  public cites?: CityValue[];
+  public cities?: CityValue[];
 
   private readonly start: Dayjs;
   private readonly end: Dayjs;
@@ -29,6 +31,32 @@ export class WeatherCrawler {
   }
 
   /**
+   * crawl files to process
+   * @param process 
+   */
+  public async crawl(process: CrawlProcess): Promise<void> {
+    
+    // from end month to start month
+    for (let m = this.end;
+      m.isAfter(this.start, 'M') || m.isSame(this.start, 'M'); 
+      m = m.add(-1, 'M')
+    ) {
+
+      // travel all cities
+      for (let city of this.cities || CityData.counties()) {
+
+        // download js file
+        const url = this.weatherUrl(m, city);
+        const data = await request.get(url, {encoding: null});
+        const js = iconv.decode(data, 'gb2312');
+    
+        // process
+        process(city, m, js);
+      }
+    }
+  }
+
+  /**
    * crawl to file 
    * @param location directory path
    * @param progress
@@ -40,7 +68,7 @@ export class WeatherCrawler {
       m = m.add(-1, 'M')
     ) {
 
-      for (let city of this.cites || CityData.counties()) {
+      for (let city of this.cities || CityData.counties()) {
         const file = this.filePath(m, city, location);
         if (await fs.existsSync(file)) {
           continue;
@@ -71,7 +99,7 @@ export class WeatherCrawler {
   private weatherUrl(month: Dayjs, city: CityValue): string {
     let path = `${month.format('YYYYMM')}/${city.code}_${month.format('YYYYMM')}.js`;
 
-    if (this.start.isBefore('2016-03')) {
+    if (month.isBefore('2016-03')) {
       path = `${city.code}_${month.format('YYYYM')}.js`;
     }
 
