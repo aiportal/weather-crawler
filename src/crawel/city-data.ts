@@ -67,7 +67,7 @@ export class CityData {
       .split('|')
       .map(x => /(\d+)-\w (\S+)-(\d+)/.exec(x))
       .compact()
-      .filter(x => x[3] === city)
+      .filter(x => x[3] === city || city.length < 5)
       .map(x => ({code: x[1], name: x[2]}))
       .value();
   }

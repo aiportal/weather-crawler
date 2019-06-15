@@ -75,13 +75,18 @@ export class WeatherCrawler {
         }
 
         const url = this.weatherUrl(m, city);
-        await this.downloadToFile(url, file);
+        try {
+          await this.downloadToFile(url, file);
 
-        if (progress) {
-          progress(city, m);
+          if (progress) {
+            progress(city, m);
+          }
+
+          await sleep(this.sleep);
+  
+        } catch(ex) {
+          console.log(url, city.province, city.city, city.name, m.format('YYYY-MM'));
         }
-
-        await sleep(this.sleep);
       }
     }
   }
